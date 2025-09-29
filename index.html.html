@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Scalm – Ruhe für deine Kopfhaut</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,700&family=Open+Sans:wght@300;400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mint:#B8D8BA; --aqua:#A7E9E1; --beige:#F8E4C1; --white:#FFFFFF;
+    --text:#334036; --text-soft:#47544d; --accent:#d6c18f; /* Button-Gold */
+    --shadow:0 10px 30px rgba(0,0,0,.08);
+    --radius:18px;
+    --maxw:1120px;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--text); background:var(--beige);
+    font-family:"Open Sans",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    line-height:1.5;
+  }
+  a{color:inherit; text-decoration:none}
+  img{max-width:100%; height:auto; display:block}
+  /* Layout */
+  .container{max-width:var(--maxw); margin:0 auto; padding:0 20px}
+  header{
+    position:sticky; top:0; z-index:50; background:rgba(248,228,193,.9);
+    backdrop-filter:saturate(1.2) blur(6px); border-bottom:1px solid rgba(51,64,54,.08)
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between; height:72px;
+  }
+  .nav .left{display:flex; align-items:center; gap:14px}
+  .logo{display:flex; align-items:center; gap:12px}
+  .logo img{width:40px; height:auto; border-radius:10px}
+  .brand{font-family:"Poppins"; font-weight:600; letter-spacing:.2px}
+  .menu{display:flex; gap:22px; align-items:center}
+  .menu a{font-family:"Poppins"; font-size:15px; opacity:.9}
+  .btn{
+    border:none; cursor:pointer; padding:12px 18px; border-radius:999px;
+    font-family:"Poppins"; font-weight:600; transition:.2s transform,.2s box-shadow,.2s background;
+    box-shadow:var(--shadow);
+  }
+  .btn-primary{background:var(--accent); color:var(--text)}
+  .btn-primary:hover{transform:translateY(-1px)}
+  .btn-ghost{background:transparent; border:1px solid rgba(51,64,54,.2)}
+  .cart-pill{
+    display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+    background:var(--white); border:1px solid rgba(51,64,54,.1); box-shadow:var(--shadow);
+    font:600 14px/1 "Poppins";
+  }
+  .cart-dot{display:inline-block; min-width:22px; padding:2px 6px; text-align:center; border-radius:12px; background:var(--mint)}
+  /* Hero */
+  .hero{
+    min-height:calc(100svh - 72px);
+    display:grid; place-items:center; background:
+      radial-gradient(90% 70% at 10% 20%, rgba(167,233,225,.35), transparent 60%),
+      radial-gradient(60% 60% at 85% 15%, rgba(184,216,186,.35), transparent 60%),
+      var(--beige);
+  }
+  .hero .inner{
+    display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center;
+    width:100%; padding:50px 0;
+  }
+  .eyebrow{font:600 13px/1 "Poppins"; letter-spacing:.14em; text-transform:uppercase; opacity:.8}
+  h1{
+    font-family:"Lora"; font-weight:700; font-style:italic; font-size: clamp(32px, 5vw, 64px);
+    margin:10px 0 10px;
+  }
+  .sub{max-width:46ch; font-size:18px; color:var(--text-soft)}
+  .cta-row{display:flex; gap:14px; margin-top:22px; flex-wrap:wrap}
+  .bottle{
+    justify-self:center; background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,.2));
+    padding:18px; border-radius:var(--radius); box-shadow:var(--shadow)
+  }
+  .hero .badges{
+    display:flex; gap:16px; margin-top:18px; flex-wrap:wrap; font:600 12px/1 "Poppins";
+  }
+  .badge{background:var(--white); border:1px solid rgba(51,64,54,.15); padding:10px 12px; border-radius:999px}
+  /* Sections */
+  section{scroll-margin-top:84px}
+  .section{padding:64px 0}
+  .section-muted{background:linear-gradient(180deg,rgba(255,255,255,.6),rgba(255,255,255,0))}
+  .kacheln{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:16px
+  }
+  .tile{
+    background:var(--white); border:1px solid rgba(51,64,54,.12); border-radius:16px; padding:22px;
+    box-shadow:var(--shadow); min-height:120px; display:grid; gap:8px; align-content:start;
+  }
+  .tile .icon{font-size:24px}
+  .stars{color:#e0b000; letter-spacing:2px}
+  .quotes{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:16px}
+  .quote{background:var(--white); border:1px solid rgba(51,64,54,.12); border-radius:16px; padding:18px; box-shadow:var(--shadow)}
+  /* Produktmodul */
+  .product{
+    display:grid; grid-template-columns:1fr 1fr; gap:28px; align-items:center;
+    background:var(--white); border:1px solid rgba(51,64,54,.12); border-radius:18px; padding:28px; box-shadow:var(--shadow)
+  }
+  .price{font:700 28px/1 "Poppins"}
+  .qty{display:flex; gap:10px; align-items:center}
+  input[type="number"]{
+    width:84px; padding:10px; border-radius:12px; border:1px solid rgba(51,64,54,.25); font:600 16px/1 "Poppins"
+  }
+  .note{font-size:13px; color:var(--text-soft)}
+  /* FAQ */
+  details{background:var(--white); border:1px solid rgba(51,64,54,.12); padding:16px 18px; border-radius:14px}
+  details+details{margin-top:10px}
+  summary{font:600 16px/1.2 "Poppins"; cursor:pointer}
+  /* Footer */
+  footer{padding:44px 0; background:var(--text); color:#e7efe9}
+  footer a{color:#dfe7e2}
+  .footgrid{display:grid; grid-template-columns:1fr auto; gap:16px; align-items:center}
+  /* Mini Cart */
+  .mini{position:absolute; right:20px; top:72px; width:min(360px,92vw);
+    background:var(--white); border:1px solid rgba(51,64,54,.12); border-radius:16px; box-shadow:var(--shadow); display:none;
+  }
+  .mini header{all:unset; display:flex; justify-content:space-between; align-items:center; padding:14px 16px; border-bottom:1px solid rgba(51,64,54,.1)}
+  .mini .body{padding:12px 16px; display:grid; gap:10px}
+  .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .muted{color:var(--text-soft)}
+  .empty{padding:10px 0; color:var(--text-soft)}
+  /* Modal Checkout */
+  .modal{position:fixed; inset:0; display:none; place-items:center}
+  .scrim{position:absolute; inset:0; background:rgba(0,0,0,.35)}
+  .dialog{
+    position:relative; z-index:1; width:min(980px,96vw); max-height:92svh; overflow:auto;
+    background:var(--white); border-radius:18px; box-shadow:0 30px 80px rgba(0,0,0,.25);
+  }
+  .dialog header{padding:16px 18px; border-bottom:1px solid rgba(51,64,54,.12); display:flex; align-items:center; justify-content:space-between}
+  .steps{display:flex; gap:8px; flex-wrap:wrap}
+  .chip{padding:8px 12px; border-radius:999px; background:#f2f5f3; font:600 13px/1 "Poppins"}
+  .chip.is-active{background:var(--mint)}
+  .dialog .content{padding:18px}
+  .form-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px}
+  label{font:600 13px/1 "Poppins"; display:block; margin-bottom:6px}
+  input[type="text"], input[type="email"], input[type="tel"], select{
+    width:100%; padding:12px; border:1px solid rgba(51,64,54,.25); border-radius:12px; font:400 15px/1.2 "Open Sans"
+  }
+  .error{color:#a91919; font:600 12px/1 "Poppins"; display:none}
+  .pay-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:12px}
+  .card-fields{display:none; margin-top:10px}
+  .review{background:#f6faf8; padding:14px; border-radius:12px; border:1px solid rgba(51,64,54,.1)}
+  .right{margin-left:auto}
+  .bar{display:flex; gap:8px; justify-content:flex-end; padding:12px 18px; border-top:1px solid rgba(51,64,54,.12); position:sticky; bottom:0; background:var(--white)}
+  /* Responsive */
+  @media (max-width:960px){
+    .hero .inner{grid-template-columns:1fr; text-align:center}
+    .bottle{order:-1}
+    .kacheln{grid-template-columns:repeat(2,1fr)}
+    .quotes{grid-template-columns:1fr}
+    .product{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="container nav" role="navigation" aria-label="Hauptnavigation">
+    <div class="left">
+      <a class="logo" href="#top">
+        <<img src="img/logo-scalm.png" alt="Scalm Logo" /> loading="eager">
+        <span class="brand">Scalm</span>
+      </a>
+    </div>
+    <nav class="menu" aria-label="Seitenmenü">
+      <a href="#shop">Shop</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontakt">Kontakt</a>
+      <button class="btn btn-primary" onclick="openCheckoutFromHeader()" aria-haspopup="dialog">Kaufen</button>
+      <button class="cart-pill" id="cartToggle" aria-expanded="false" aria-controls="miniCart">
+        🛒 <span>Warenkorb</span> <span class="cart-dot" id="cartCount">0</span>
+      </button>
+    </nav>
+  </div>
+  <div class="mini" id="miniCart" role="dialog" aria-modal="false" aria-label="Mini-Warenkorb">
+    <header>
+      <strong>Dein Warenkorb</strong>
+      <button class="btn btn-ghost" onclick="toggleMini(false)">Schließen</button>
+    </header>
+    <div class="body" id="miniBody">
+      <p class="empty">Noch leer. Füge das Scalm Shampoo hinzu.</p>
+    </div>
+    <div class="bar">
+      <span class="muted right" id="miniSubtotal">Zwischensumme: 0,00 €</span>
+      <button class="btn btn-primary" onclick="openCheckout()">Zur Kasse</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="container inner">
+      <div>
+        <div class="eyebrow">Sanfte Kopfhautpflege</div>
+        <h1 id="hero-h">Ruhe für deine Kopfhaut.</h1>
+        <p class="sub">Mildes Anti-Schuppen-Shampoo mit natürlichen Inhaltsstoffen. Dermatologisch getestet, ohne Parabene & Silikone.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#shop" onclick="focusProduct()">Jetzt kaufen</a>
+          <a class="btn btn-ghost" href="#vorteile">Mehr erfahren</a>
+        </div>
+        <div class="badges" aria-label="Produktvorteile">
+          <span class="badge">🌿 Natürlich</span>
+          <span class="badge">✨ Beruhigend</span>
+          <span class="badge">🧪 Dermatologisch getestet</span>
+        </div>
+      </div>
+      <div class="bottle">
+        <img src="img/scalm-flasche.png" width="540" alt="Scalm Shampoo Flasche" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- USPs -->
+  <section id="vorteile" class="section section-muted" aria-labelledby="usp-h">
+    <div class="container">
+      <h2 id="usp-h" style="font:600 22px Poppins; margin:0 0 16px">Warum Scalm?</h2>
+      <div class="kacheln" role="list">
+        <article class="tile" role="listitem"><div class="icon">🌿</div><strong>Natürliche Inhaltsstoffe</strong><span class="muted">Sanft zu Haar & Kopfhaut.</span></article>
+        <article class="tile" role="listitem"><div class="icon">🫧</div><strong>Beruhigt die Kopfhaut</strong><span class="muted">Reduziert Juckreiz & Schuppenbildung.</span></article>
+        <article class="tile" role="listitem"><div class="icon">🚫</div><strong>Ohne Parabene & Silikone</strong><span class="muted">Clean & verträglich.</span></article>
+        <article class="tile" role="listitem"><div class="icon">🧪</div><strong>Dermatologisch getestet</strong><span class="muted">Für tägliche Anwendung geeignet.</span></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Proof -->
+  <section class="section" aria-labelledby="sp-h">
+    <div class="container">
+      <h2 id="sp-h" style="font:600 22px Poppins; margin:0">Das sagen Kund*innen</h2>
+      <p class="stars" aria-label="Bewertung: 4,8 von 5 Sternen">★★★★★ <span class="muted">(4,8/5)</span></p>
+      <div class="quotes">
+        <figure class="quote">
+          <blockquote>„Nach zwei Wochen endlich Ruhe – keine sichtbaren Schuppen mehr.“</blockquote>
+          <figcaption class="muted">— Lara M.</figcaption>
+        </figure>
+        <figure class="quote">
+          <blockquote>„Riecht dezent, beruhigt spürbar. Preis/Leistung top.“</blockquote>
+          <figcaption class="muted">— Deniz K.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Produkt / Shop -->
+  <section id="shop" class="section" aria-labelledby="shop-h">
+    <div class="container">
+      <h2 id="shop-h" style="font:600 22px Poppins; margin:0 0 16px">Scalm Anti-Dandruff Shampoo</h2>
+      <div class="product" id="productCard">
+        <div>
+          <img src="img/scalm-flasche.png" alt="Scalm Shampoo Produktbild" loading="lazy">
+        </div>
+        <div>
+          <p class="price"><span id="unitPrice">2,99</span> €</p>
+          <p class="muted">250 ml • Kostenloser Versand ab 10 € <span class="note" id="upsell"></span></p>
+          <div class="qty" style="margin:12px 0 18px">
+            <label for="qty">Menge</label>
+            <input id="qty" type="number" min="1" value="1" inputmode="numeric" />
+            <button class="btn btn-primary" onclick="addToCartFromProduct()">In den Warenkorb</button>
+          </div>
+          <p class="muted">Lieferzeit: 2–3 Werktage</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section section-muted" aria-labelledby="faq-h">
+    <div class="container">
+      <h2 id="faq-h" style="font:600 22px Poppins; margin:0 0 12px">FAQ</h2>
+      <details>
+        <summary>Ist Scalm für empfindliche Kopfhaut geeignet?</summary>
+        <p>Ja, die milde Formel ist dermatologisch getestet und für den täglichen Gebrauch geeignet.</p>
+      </details>
+      <details>
+        <summary>Wie schnell wirkt das Shampoo?</summary>
+        <p>Erste Verbesserungen sind oft nach wenigen Anwendungen spürbar; für nachhaltige Ergebnisse regelmäßig verwenden.</p>
+      </details>
+      <details>
+        <summary>Wie wird angewendet?</summary>
+        <p>Sanft einmassieren, 2–3 Minuten einwirken lassen, gründlich ausspülen.</p>
+      </details>
+      <details>
+        <summary>Wie wird versendet?</summary>
+        <p>Klimaneutraler Versand. Kostenlos ab 10 € Bestellwert.</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer id="kontakt">
+  <div class="container footgrid">
+    <div>
+      <strong>Scalm</strong> · <span class="muted">Sanfte Hilfe bei Schuppen</span><br>
+      <a href="#impressum">Impressum</a> · <a href="#datenschutz">Datenschutz</a> · <a href="#agb">AGB</a>
+    </div>
+    <div>Folge uns: <a href="#" aria-label="Instagram">Instagram</a> · <a href="#" aria-label="TikTok">TikTok</a></div>
+  </div>
+</footer>
+
+<!-- Checkout Modal -->
+<div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="chkTitle">
+  <div class="scrim" onclick="closeCheckout()" aria-hidden="true"></div>
+  <div class="dialog">
+    <header>
+      <strong id="chkTitle">Kasse</strong>
+      <div class="steps" id="stepChips"></div>
+      <button class="btn btn-ghost" onclick="closeCheckout()">Schließen</button>
+    </header>
+    <div class="content" id="stepContent" tabindex="-1"></div>
+    <div class="bar" id="stepBar"></div>
+  </div>
+</div>
+
+<script>
+/* =========================
+   STATE
+========================= */
+const EUR = (n)=> n.toLocaleString('de-DE',{style:'currency',currency:'EUR'});
+const PRICE = 2.99;
+const FREE_SHIP = 10;
+let cart = { items:[], subtotal:0 };
+
+function recalc(){
+  cart.subtotal = cart.items.reduce((s,i)=> s + i.price * i.qty, 0);
+  document.getElementById('cartCount').textContent =
+    cart.items.reduce((s,i)=> s + i.qty, 0);
+  document.getElementById('miniSubtotal').textContent =
+    'Zwischensumme: ' + EUR(cart.subtotal);
+  renderMini();
+  // Upsell in Produktmodul
+  const missing = Math.max(0, FREE_SHIP - cart.subtotal);
+  document.getElementById('upsell').textContent =
+    cart.subtotal >= FREE_SHIP ? '✓ Versand gratis' :
+    ` · Noch ${EUR(missing)} bis Gratis-Versand`;
+}
+function addItem(qty=1){
+  const id='scalm-250';
+  const i = cart.items.find(x=>x.id===id);
+  if(i){ i.qty += qty }
+  else cart.items.push({id, name:'Scalm Anti-Dandruff Shampoo (250 ml)', price:PRICE, qty});
+  recalc(); 
+}
+function removeItem(id){ cart.items = cart.items.filter(x=>x.id!==id); recalc(); }
+function setQty(id, qty){ const i=cart.items.find(x=>x.id===id); if(i){ i.qty = Math.max(1, qty); recalc(); } }
+
+/* =========================
+   MINI CART
+========================= */
+const mini = document.getElementById('miniCart');
+document.getElementById('cartToggle').addEventListener('click',()=>toggleMini());
+function toggleMini(force){
+  const show = typeof force==='boolean' ? force : mini.style.display!=='block';
+  mini.style.display = show ? 'block':'none';
+  document.getElementById('cartToggle').setAttribute('aria-expanded', show);
+}
+function renderMini(){
+  const wrap = document.getElementById('miniBody'); wrap.innerHTML='';
+  if(!cart.items.length){ wrap.innerHTML = '<p class="empty">Noch leer. Füge das Scalm Shampoo hinzu.</p>'; return; }
+  cart.items.forEach(it=>{
+    const row = document.createElement('div'); row.className='row';
+    row.innerHTML = `
+      <div style="display:flex; gap:10px; align-items:center">
+        <img src="img/scalm-flasche.png" alt="Scalm Flasche Mini" width="38" height="38" loading="lazy">
+        <div>
+          <div style="font:600 14px Poppins">${it.name}</div>
+          <div class="muted">${EUR(it.price)} · <label for="qty-${it.id}">Menge</label>
+            <input id="qty-${it.id}" type="number" min="1" value="${it.qty}" style="width:64px; margin-left:6px">
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="text-align:right; font:600 14px Poppins">${EUR(it.price*it.qty)}</div>
+        <button class="btn btn-ghost" onclick="removeItem('${it.id}')">Entfernen</button>
+      </div>`;
+    wrap.appendChild(row);
+    row.querySelector(`#qty-${it.id}`).addEventListener('input', e=> setQty(it.id, +e.target.value||1));
+  });
+}
+
+/* =========================
+   PRODUCT CTA
+========================= */
+function focusProduct(){
+  setTimeout(()=>{
+    const q=document.getElementById('qty'); q.focus({preventScroll:true});
+  }, 300);
+}
+function addToCartFromProduct(){
+  const q = Math.max(1, +document.getElementById('qty').value||1);
+  addItem(q);
+  toggleMini(true);
+}
+
+/* =========================
+   CHECKOUT (Modal with steps)
+========================= */
+const modal = document.getElementById('checkoutModal');
+const stepContent = document.getElementById('stepContent');
+const stepBar = document.getElementById('stepBar');
+const chips = document.getElementById('stepChips');
+const steps = [
+  {id:'cart', label:'Warenkorb'},
+  {id:'addr', label:'Adresse'},
+  {id:'ship', label:'Versand'},
+  {id:'paym', label:'Zahlung'},
+  {id:'review', label:'Übersicht'},
+  {id:'done', label:'Bestätigung'},
+];
+let current = 0;
+function openCheckoutFromHeader(){ if(!cart.items.length) addItem(1); openCheckout(); }
+function openCheckout(){
+  modal.style.display='grid';
+  toggleMini(false);
+  current = 0;
+  renderStep();
+  stepContent.focus();
+}
+function closeCheckout(){ modal.style.display='none'; }
+function renderChips(){
+  chips.innerHTML = '';
+  steps.forEach((s,i)=>{
+    const span=document.createElement('span');
+    span.className='chip'+(i===current?' is-active':'');
+    span.textContent = s.label;
+    chips.appendChild(span);
+  });
+}
+function next(){ if(current < steps.length-1){ current++; renderStep(); } }
+function prev(){ if(current > 0){ current--; renderStep(); } }
+
+function renderStep(){
+  renderChips();
+  const s = steps[current].id;
+  stepBar.innerHTML = '';
+  if(s==='cart'){
+    stepContent.innerHTML = renderCartStep();
+    const hasItems = cart.items.length>0;
+    stepBar.append(btnGhost('Zurück', closeCheckout));
+    stepBar.append(btnPrimary(hasItems?'Zur Adresse':'Zum Shop', hasItems?next:()=>{ closeCheckout(); location.hash='#shop'; }));
+  }
+  if(s==='addr'){
+    stepContent.innerHTML = renderAddrStep();
+    stepBar.append(btnGhost('Zurück', prev));
+    stepBar.append(btnPrimary('Weiter', () => {
+      if(validateAddr()){ next(); }
+    }));
+  }
+  if(s==='ship'){
+    stepContent.innerHTML = renderShipStep();
+    stepBar.append(btnGhost('Zurück', prev));
+    stepBar.append(btnPrimary('Weiter', next));
+  }
+  if(s==='paym'){
+    stepContent.innerHTML = renderPayStep();
+    attachPayHandlers();
+    stepBar.append(btnGhost('Zurück', prev));
+    stepBar.append(btnPrimary('Weiter', next));
+  }
+  if(s==='review'){
+    stepContent.innerHTML = renderReviewStep();
+    stepBar.append(btnGhost('Zurück', prev));
+    stepBar.append(btnPrimary('Jetzt kaufen', () => {
+      // simple loading feel
+      const btn = stepBar.querySelector('.btn.btn-primary');
+      btn.disabled=true; btn.textContent='Zahlung wird verarbeitet…';
+      setTimeout(()=> next(), 900);
+    }));
+  }
+  if(s==='done'){
+    const orderId = 'SC-'+Math.random().toString(36).slice(2,8).toUpperCase();
+    stepContent.innerHTML = `
+      <div class="container" style="padding:20px">
+        <h2 style="font:600 22px Poppins; margin:0 0 10px">Danke für deine Bestellung!</h2>
+        <p>Bestellnummer: <strong>${orderId}</strong></p>
+        <p class="muted">Eine Bestellbestätigung wurde dir (mock) per E-Mail gesendet.</p>
+        <div style="margin-top:16px">
+          <a class="btn btn-primary" href="#top" onclick="closeCheckout()">Zurück zur Startseite</a>
+        </div>
+      </div>`;
+    // clear cart
+    cart.items=[]; recalc();
+    stepBar.append(btnPrimary('Schließen', closeCheckout));
+  }
+}
+
+function btnPrimary(label, onClick){ const b=document.createElement('button'); b.className='btn btn-primary'; b.textContent=label; b.onclick=onClick; return b; }
+function btnGhost(label, onClick){ const b=document.createElement('button'); b.className='btn btn-ghost'; b.textContent=label; b.onclick=onClick; return b; }
+
+/* Step templates */
+function renderCartStep(){
+  if(!cart.items.length) return '<div class="container"><p>Dein Warenkorb ist leer.</p></div>';
+  const lines = cart.items.map(it=>`
+    <div class="row">
+      <div style="display:flex; gap:12px; align-items:center">
+        <img src="img/scalm-flasche.png" alt="Scalm Flasche" width="56" height="56" loading="lazy">
+        <div>
+          <div style="font:600 16px Poppins">${it.name}</div>
+          <div class="muted">${EUR(it.price)} · Menge
+            <input type="number" min="1" value="${it.qty}" style="width:70px; margin-left:6px" oninput="setQty('${it.id}', +this.value||1)">
+          </div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div style="font:600 16px Poppins">${EUR(it.qty*it.price)}</div>
+        <button class="btn btn-ghost" onclick="removeItem('${it.id}')">Entfernen</button>
+      </div>
+    </div>`).join('');
+  const ship = cart.subtotal>=FREE_SHIP ? 'Kostenlos' : EUR(3.00);
+  const total = cart.subtotal + (cart.subtotal>=FREE_SHIP ? 0 : 3.00);
+  return `
+  <div class="container" style="padding:10px 10px 2px">
+    ${lines}
+    <hr style="margin:16px 0; border:none; border-top:1px solid rgba(51,64,54,.1)">
+    <div class="row"><span class="muted">Zwischensumme</span><strong>${EUR(cart.subtotal)}</strong></div>
+    <div class="row"><span class="muted">Versand</span><strong>${ship}</strong></div>
+    <div class="row"><span class="muted">Gesamt</span><strong>${EUR(total)}</strong></div>
+    <p class="note">${cart.subtotal>=FREE_SHIP ? 'Du erhältst kostenlosen Versand.' : `Noch ${EUR(FREE_SHIP - cart.subtotal)} bis kostenloser Versand.`}</p>
+  </div>`;
+}
+function renderAddrStep(){
+  return `
+  <div class="container">
+    <h3 style="font:600 18px Poppins; margin:4px 0 10px">Lieferadresse</h3>
+    <form id="addrForm" novalidate class="form-grid" onsubmit="return false">
+      <div><label for="vor">Vorname*</label><input id="vor" type="text" required><div class="error" id="e-vor">Bitte ausfüllen.</div></div>
+      <div><label for="nach">Nachname*</label><input id="nach" type="text" required><div class="error" id="e-nach">Bitte ausfüllen.</div></div>
+      <div><label for="mail">E-Mail*</label><input id="mail" type="email" required placeholder="name@mail.de"><div class="error" id="e-mail">Gültige E-Mail angeben.</div></div>
+      <div><label for="tel">Telefon</label><input id="tel" type="tel" placeholder="+49 …"></div>
+      <div style="grid-column:1 / -1"><label for="str">Straße & Nr.*</label><input id="str" type="text" required><div class="error" id="e-str">Bitte ausfüllen.</div></div>
+      <div><label for="plz">PLZ*</label><input id="plz" type="text" required pattern="\\d{4,5}"><div class="error" id="e-plz">PLZ prüfen.</div></div>
+      <div><label for="ort">Ort*</label><input id="ort" type="text" required><div class="error" id="e-ort">Bitte ausfüllen.</div></div>
+      <div><label for="land">Land*</label><select id="land"><option>Deutschland</option><option>Österreich</option><option>Schweiz</option></select></div>
+    </form>
+  </div>`;
+}
+function validateAddr(){
+  const f = (id)=>document.getElementById(id);
+  const req = ['vor','nach','mail','str','plz','ort'];
+  let ok=true;
+  req.forEach(id=>{
+    const el=f(id), err=f('e-'+(id==='mail'?'mail':id));
+    let good = el.value.trim().length>0;
+    if(id==='mail') good = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value);
+    if(id==='plz') good = /^\d{4,5}$/.test(el.value);
+    err.style.display = good ? 'none':'block';
+    el.setAttribute('aria-invalid', good?'false':'true');
+    if(!good && ok){ el.focus(); ok=false; }
+  });
+  return ok;
+}
+function renderShipStep(){
+  return `
+  <div class="container">
+    <h3 style="font:600 18px Poppins; margin:4px 0 10px">Versandoption</h3>
+    <label><input type="radio" name="ship" value="standard" checked> Standard (2–3 Werktage) – ${cart.subtotal>=FREE_SHIP ? 'Kostenlos' : EUR(3.00)}</label><br>
+    <label><input type="radio" name="ship" value="exp"> Express (1–2 Werktage) – ${EUR(6.00)}</label>
+  </div>`;
+}
+function renderPayStep(){
+  return `
+  <div class="container">
+    <h3 style="font:600 18px Poppins; margin:4px 0 10px">Zahlung</h3>
+    <div class="pay-grid" role="radiogroup" aria-label="Zahlungsarten">
+      <label class="tile" style="cursor:pointer"><input type="radio" name="pay" value="visa" checked> Visa</label>
+      <label class="tile" style="cursor:pointer"><input type="radio" name="pay" value="mc"> MasterCard</label>
+      <label class="tile" style="cursor:pointer"><input type="radio" name="pay" value="pp"> PayPal</label>
+      <label class="tile" style="cursor:pointer"><input type="radio" name="pay" value="kl"> Klarna</label>
+    </div>
+    <div class="card-fields" id="cardFields">
+      <div class="form-grid" style="margin-top:10px">
+        <div><label for="cc">Kartennummer</label><input id="cc" type="text" inputmode="numeric" placeholder="•••• •••• •••• ••••"></div>
+        <div><label for="exp">Gültig bis</label><input id="exp" type="text" placeholder="MM/JJ"></div>
+        <div><label for="cvc">CVC</label><input id="cvc" type="text" inputmode="numeric" placeholder="•••"></div>
+      </div>
+      <p class="note">Dummy-Eingabe (keine echte Zahlung).</p>
+    </div>
+  </div>`;
+}
+function attachPayHandlers(){
+  const radios = document.querySelectorAll('input[name="pay"]');
+  const card = document.getElementById('cardFields');
+  function toggle(){ const v=document.querySelector('input[name="pay"]:checked').value; card.style.display = (v==='visa'||v==='mc')?'block':'none'; }
+  radios.forEach(r=> r.addEventListener('change', toggle)); toggle();
+}
+function renderReviewStep(){
+  const lines = cart.items.map(i=>`<div class="row"><span>${i.qty}× ${i.name}</span><strong>${EUR(i.qty*i.price)}</strong></div>`).join('');
+  const shipCost = cart.subtotal>=FREE_SHIP ? 0 : 3.00;
+  return `
+  <div class="container">
+    <h3 style="font:600 18px Poppins; margin:4px 0 10px">Bestellung prüfen</h3>
+    <div class="review">
+      ${lines}
+      <hr style="border:none; border-top:1px solid rgba(51,64,54,.1); margin:10px 0">
+      <div class="row"><span class="muted">Versand</span><strong>${EUR(shipCost)}</strong></div>
+      <div class="row"><span class="muted">Gesamt</span><strong>${EUR(cart.subtotal+shipCost)}</strong></div>
+    </div>
+    <p class="note">Mit Klick auf „Jetzt kaufen“ stimmst du unseren <a href="#agb">AGB</a> zu. Dies ist ein Demo-Checkout.</p>
+  </div>`;
+}
+
+/* Helpers for external triggers */
+function addToCartFromProduct(){ addItem(Math.max(1, +document.getElementById('qty').value||1)); toggleMini(true); }
+function openCheckoutFromHeader(){ if(!cart.items.length) addItem(1); openCheckout(); }
+
+/* Init */
+document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ toggleMini(false); closeCheckout(); }});
+recalc();
+</script>
+</body>
+</html>
